@@ -27,6 +27,20 @@ for(int i=0;i<10;i++){
 
 }}
 
+void display(char board[10][10],int a[],int *count,char disp[32]){
+    char dist=board [a[3]][a[2]];
+    if(dist!= '-' && dist!= '.'){
+        disp[*count]=dist;
+        *count+=1;
+    }}
+
+void printDisplay(int *count,char disp[32]){
+    printf("taken out pieces:{");
+    if((*count)!=0){
+    for(int i=0;i<(*count);i++){
+        printf("%c ,",disp[i]);
+    }}
+    printf("}\n");}
 
 
 

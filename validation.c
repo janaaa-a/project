@@ -1,7 +1,46 @@
 #include<stdlib.h>
-int isPathClear(char board[10][10], int sr, int sc, int er, int ec) {
-    
+int isPathClear(char board[10][10],int a[4]){
+    // a[0]//Coulumn start
+    //a[1]//row start
+    //a[2]//colomn end
+    //a[3]//row end
+    int dirR=0; int dirC=0;
+    if(a[1]==a[3]){
+        dirR=0;
+        if(a[2]>a[0])
+        dirC=1;
+        else 
+        dirC=-1;
+    }
+    else if(a[0]==a[2]){
+        dirC=0;
+        if(a[3]>a[1])
+        dirR=1;
+        else 
+        dirR=-1;
+    }
+    else if(abs(a[3] - a[1])==abs(a[2] - a[0])){
+        if(a[2]>a[0])
+        dirC=1;
+        else 
+        dirC=-1;
+        if(a[3]>a[1])
+        dirR=1;
+        else 
+        dirR=-1;
+    }
+
+    int x=dirR+a[1];
+    int y=dirC+a[0];
+    while((x!=a[3])||y!=a[2]){
+        if((board[x][y]!='.')&&(board[x][y]!='-')){
+        return 0;}
+        x+=dirR;
+        y+=dirC;
+    }
+    return 1;
 }
+
 int isValidBishopMove(char board[10][10], int a[4], char piece) {
     
     int rowDiff = abs(a[3] - a[1]);  
@@ -9,10 +48,6 @@ int isValidBishopMove(char board[10][10], int a[4], char piece) {
     if (rowDiff != colDiff) {
         return 0; 
     }
-        if (!isPathClear(board, a[1], a[0], a[3], a[2])) {
-        return 0;  
-    }
-    
     return 1;
 }
 
@@ -21,9 +56,6 @@ int isValidQueenMove(char board[10][10], int a[4], char piece) {
     int colDiff = abs(a[2] - a[0]);
     
     if (rowDiff == colDiff || a[1] == a[3] || a[0] == a[2]) {
-        if (!isPathClear(board, a[1], a[0], a[3], a[2])) {
-            return 0;  
-        }
         return 1;
     }
     return 0; 
@@ -75,6 +107,25 @@ int isValidPawnMove(char board[10][10], int a[4], char piece) {
     
     return 0;  
 }
+int isValidRookMove(int a[4],char board[10][10]){
+    if((a[0]==a[2]) && (a[1]!=a[3]))
+        return 1;
+    else if((a[0]!=a[2]) && (a[1]==a[3]))
+        return 1;
+    else
+    return 0;
+}
+
+int isValidKnightMove(int a[4],char board[10][10]){
+    int rowDiff = abs(a[3] - a[1]);  
+    int colDiff = abs(a[2] - a[0]); 
+    if((rowDiff==2) && (colDiff==1))
+    return 1;
+    else if((rowDiff==1) && (colDiff==2))
+    return 1;
+    else
+    return 0;}
+
 
 
 int isValidMove(char board[10][10], int a[4], int currentPlayer) {
@@ -98,18 +149,35 @@ int isValidMove(char board[10][10], int a[4], int currentPlayer) {
     }
 
     if (piece == 'p' || piece == 'P') {
-        return isValidPawnMove(board, a, piece);
+        if(!isValidPawnMove(board, a, piece))
+        return 0;
     }
     else if (piece == 'b' || piece == 'B') {
-        return isValidBishopMove(board, a, piece);
+        if(!isValidBishopMove(board, a, piece))
+        return 0;
+        if(!isPathClear(board,a))
+            return 0;
     }
     else if (piece == 'q' || piece == 'Q') {
-        return isValidQueenMove(board, a, piece);
+    if(!isValidQueenMove(board, a, piece))
+    return 0;
+    if(!isPathClear(board,a))
+     return 0;
     }
     else if (piece == 'k' || piece == 'K') {
-        return isValidKingMove(board, a, piece);
+        if(!isValidKingMove(board, a, piece))
+        return 0;
     }
-    else {
+    else if(piece == 'n' || piece == 'N'){
+        if(!isValidKnightMove(a,board))
         return 0; 
     }
+    else if(piece == 'r' || piece == 'R'){
+        if(!isValidRookMove(a,board))
+        return 0;
+        if(!isPathClear(board,a))
+        return 0;     
+    }
+
+    return 1;
 }

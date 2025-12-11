@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include "board.h"
 #include "move.h"
+#include "validation.h"
 #include <stdlib.h>
 
 int main(){
