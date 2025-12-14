@@ -1,4 +1,14 @@
 #include<stdlib.h>
+#include "board.h"
+#include "move.h"
+char placePiece(char board[10][10],int a[4],char move[6]){
+    char piece= board[a[1]][a[0]];
+    if(isPromotion(a,board,move))
+    return move[4];
+    else 
+    return piece;
+}
+
 int isPathClear(char board[10][10],int a[4]){
     // a[0]//Coulumn start
     //a[1]//row start
@@ -41,7 +51,7 @@ int isPathClear(char board[10][10],int a[4]){
     return 1;
 }
 
-int isValidBishopMove(char board[10][10], int a[4], char piece) {
+int isValidBishopMove(char board[10][10], int a[4]) {
     
     int rowDiff = abs(a[3] - a[1]);  
     int colDiff = abs(a[2] - a[0]); 
@@ -51,7 +61,7 @@ int isValidBishopMove(char board[10][10], int a[4], char piece) {
     return 1;
 }
 
-int isValidQueenMove(char board[10][10], int a[4], char piece) {
+int isValidQueenMove(char board[10][10], int a[4]) {
     int rowDiff = abs(a[3] - a[1]);
     int colDiff = abs(a[2] - a[0]);
     
@@ -60,7 +70,7 @@ int isValidQueenMove(char board[10][10], int a[4], char piece) {
     }
     return 0; 
 }
-int isValidKingMove(char board[10][10], int a[4], char piece){
+int isValidKingMove(char board[10][10], int a[4]){
     int rowdiff= abs(a[1]-a[3]);
     int coldiff = abs(a[0]-a[2]);
     if(rowdiff > 1 || coldiff > 1 )
@@ -126,12 +136,56 @@ int isValidKnightMove(int a[4],char board[10][10]){
     else
     return 0;}
 
+    int isPromotion(int a[4],char board[10][10],char move[6]){
+    char piece=board[a[1]][a[0]];
+    int r2=a[3];
+    if((piece=='p'&& r2==1)||(piece=='P'&& r2==8)){
+        if(piece=='p'&& (move[4]=='q' || move[4]=='n' || move[4]=='r' || move[4]=='b' ))
+        return 1;
+        else if(piece=='P'&& (move[4]=='Q' || move[4]=='N' || move[4]=='R' || move[4]=='B' ))
+        return 1;
+    }
+    return 0;
+}
+
+int isCheck(char temp[10][10],int currentPlayer){
+    int kr=-1; int kc=-1;
+    char king= (currentPlayer==0)? 'k':'K';
+
+    for(int i=1;i<=8;i++){
+        for( int j=1;j<=8;j++){
+            if(temp[i][j]==king){
+                kr=i;
+                kc=j;
+            }}}
+
+    for(int r=1;r<=8;r++){
+        for(int c=1;c<=8;c++){
+            char p = temp[r][c];
+            if (p=='.'||p=='-') continue;
+
+        if (currentPlayer==0 && p>='a'&&p<='z') continue;
+        if (currentPlayer==1 && p>='A'&&p<='Z') continue;
+
+        int b[4]={c,r,kc,kr};
+        if (p=='p' && kr==r-1 && abs(kc-c)==1) return 1;
+        if (p=='P' && kr==r+1 && abs(kc-c)==1) return 1;
+        if ((p=='n'||p=='N') && isValidKnightMove(b,temp)) return 1;
+        if ((p=='b'||p=='B') && isValidBishopMove(b,temp) && isPathClear(temp,b)) return 1;
+        if ((p=='r'||p=='R') && isValidRookMove(b,temp) && isPathClear(temp,b)) return 1;
+        if ((p=='q'||p=='Q') && isValidQueenMove(b,temp) && isPathClear(temp,b)) return 1;
+        if ((p=='k'||p=='K') && abs(r-kr)<=1 && abs(c-kc)<=1) return 1;
+        }}
+        
+        return 0;
+        }
 
 
-int isValidMove(char board[10][10], int a[4], int currentPlayer) {
+
+
+int isValidMove(char board[10][10], int a[4], int currentPlayer,char move[6]) {
     char piece = board[a[1]][a[0]];  
     char distpiece = board[a[3]][a[2]];
-
     if (currentPlayer == 0){
         if (piece < 'a' || piece > 'z') {
             return 0; 
@@ -153,19 +207,19 @@ int isValidMove(char board[10][10], int a[4], int currentPlayer) {
         return 0;
     }
     else if (piece == 'b' || piece == 'B') {
-        if(!isValidBishopMove(board, a, piece))
+        if(!isValidBishopMove(board, a))
         return 0;
         if(!isPathClear(board,a))
             return 0;
     }
     else if (piece == 'q' || piece == 'Q') {
-    if(!isValidQueenMove(board, a, piece))
+    if(!isValidQueenMove(board, a))
     return 0;
     if(!isPathClear(board,a))
      return 0;
     }
     else if (piece == 'k' || piece == 'K') {
-        if(!isValidKingMove(board, a, piece))
+        if(!isValidKingMove(board, a))
         return 0;
     }
     else if(piece == 'n' || piece == 'N'){
@@ -178,6 +232,24 @@ int isValidMove(char board[10][10], int a[4], int currentPlayer) {
         if(!isPathClear(board,a))
         return 0;     
     }
+    int r2=a[3];
+    if((piece=='p'&& r2==1)||(piece=='P'&& r2==8)){
+        if(move[4]=='\0') return 0;
+        if(piece=='p'&& (move[4]!='q' && move[4]!='n' && move[4]!='r' && move[4]!='b' ))
+        return 0;
+        else if(piece=='P'&& (move[4]!='Q' && move[4]!='N' && move[4]!='R' && move[4]!='B' ))
+        return 0;}
+
+    char placedpiece=placePiece(board,a,move);
+
+    char temp[10][10];
+    copyboard(board,temp);
+    moving(temp,a,placedpiece);
+
+    if(isCheck(temp,currentPlayer)){
+        return 0;
+    }
+
 
     return 1;
 }

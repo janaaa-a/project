@@ -13,9 +13,10 @@ int main(){
         printf("player %d turn: ",currentPlayer+1);
         scanf("%s",move);
         change(move,a);
-        if (isValidMove(board, a, currentPlayer)) {
+        if (isValidMove(board, a, currentPlayer,move)) {
             currentPlayer = 1 - currentPlayer; // Switching between players
-            moving(board,a);
+            char placedpiece=placePiece(board,a,move);
+            moving(board,a,placedpiece);
             printBoard(board);}
         else {
             printf("Invalid move, try again.\n");
