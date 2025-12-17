@@ -6,7 +6,7 @@
 
 int main(){
     
-    char board[10][10];char move[6]; int a[4]; int currentPlayer=0;int count=0;char disp[32];
+    piece board[8][8];char move[6]; int a[4]; int currentPlayer=0;int count=0;char disp[32];
     initilize(board);
     printBoard(board);
     while(1){
