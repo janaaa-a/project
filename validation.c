@@ -5,7 +5,7 @@ int isPromotion(int a[4], piece board[8][8], char move[6])
 {
     char piece = board[a[1]][a[0]].type;
     int r2 = a[3];
-    if ((piece == 'p' && r2 == 1) || (piece == 'P' && r2 == 8))
+    if ((piece == 'p' && r2 == 0) || (piece == 'P' && r2 == 7))
     {
         if (piece == 'p' && (move[4] == 'q' || move[4] == 'n' || move[4] == 'r' || move[4] == 'b'))
             return 1;
@@ -16,11 +16,11 @@ int isPromotion(int a[4], piece board[8][8], char move[6])
 }
 char placePiece(piece board[8][8], int a[4], char move[6])
 {
-    char piece = board[a[1]][a[0]].type;
+    char mypiece = board[a[1]][a[0]].type;
     if (isPromotion(a, board, move))
         return move[4];
     else
-        return piece;
+        return mypiece;
 }
 
 int isPathClear(piece board[8][8], int a[4])
@@ -179,9 +179,9 @@ int isCheck(piece temp[8][8], int currentPlayer)
     int kc = -1;
     char king = (currentPlayer == 0) ? 'k' : 'K';
 
-    for (int i = 1; i <= 8; i++)
+    for (int i = 0; i <8; i++)
     {
-        for (int j = 1; j <= 8; j++)
+        for (int j = 0; j <8; j++)
         {
             if (temp[i][j].type == king)
             {
@@ -191,9 +191,9 @@ int isCheck(piece temp[8][8], int currentPlayer)
         }
     }
 
-    for (int r = 1; r <= 8; r++)
+    for (int r = 0; r <8; r++)
     {
-        for (int c = 1; c <= 8; c++)
+        for (int c = 0; c <8; c++)
         {
             char p = temp[r][c].type;
             if (p == '.' || p == '-')
@@ -290,7 +290,7 @@ int isValidMove(piece board[8][8], int a[4], int currentPlayer, char move[6])
             return 0;
     }
     int r2 = a[3];
-    if ((piece == 'p' && r2 == 1) || (piece == 'P' && r2 == 8))
+    if ((piece == 'p' && r2 == 0) || (piece == 'P' && r2 == 7))
     {
         if (move[4] == '\0')
             return 0;
@@ -303,7 +303,7 @@ int isValidMove(piece board[8][8], int a[4], int currentPlayer, char move[6])
     char placedpiece = placePiece(board, a, move);
     
     copyboard(board, temp);
-    moving(temp, a, placedpiece);
+    applymovesim(temp, a, placedpiece);
 
     if (isCheck(temp, currentPlayer))
     {
@@ -311,4 +311,53 @@ int isValidMove(piece board[8][8], int a[4], int currentPlayer, char move[6])
     }
 
     return 1;
+}
+
+int haslegalmove(piece board[8][8],int currentPlayer){
+    char fakemoveW[6]="xxxxq";char fakemoveB[6]="xxxxQ";
+    for(int r=0;r<8;r++){
+        for(int c=0;c<8;c++){
+            if(board[r][c].type=='-'||board[r][c].type=='.')
+            continue;
+            if((currentPlayer==0 &&(board[r][c].type >= 'A' && board[r][c].type <= 'Z'))||(currentPlayer==1 && (board[r][c].type >= 'a' && board[r][c].type <= 'z') ))
+            continue;
+            for(int tr=0;tr<8;tr++){
+                for(int tc=0;tc<8;tc++){
+                    int b[4]={c,r,tc,tr};
+            if(currentPlayer==0){
+                if(isValidMove(board,b,currentPlayer,fakemoveW)){
+                    return 1;
+                }
+            }
+            else if(currentPlayer==1){
+                if(isValidMove(board,b,currentPlayer,fakemoveB)){
+                    return 1;
+                }
+            } 
+                }
+            }
+
+        }
+    }
+    return 0;
+
+}
+
+int isCheckmate(piece board[8][8],int currentPlayer){
+    if(!isCheck(board,currentPlayer)){
+    return 0;}
+    if(haslegalmove(board,currentPlayer)){
+    return 0;}
+    
+    return 1;
+}
+
+int isdraw(piece board[8][8],int currentPlayer){
+    if(isCheck(board,currentPlayer)){
+    return 0;}
+    if(haslegalmove(board,currentPlayer)){
+    return 0;}
+
+    return 1;
+
 }

@@ -74,14 +74,14 @@ void initilize(piece board[8][8])
     pTemp.initialPos[1] = 5;
     pTemp.state = 1;
     board[7][5] = pTemp;
-    pTemp.type = 'q';
+    pTemp.type = 'k';
     pTemp.currentPos[0] = 7;
     pTemp.currentPos[1] = 4;
     pTemp.initialPos[0] = 7;
     pTemp.initialPos[1] = 4;
     pTemp.state = 1;
     board[7][4] = pTemp;
-    pTemp.type = 'k';
+    pTemp.type = 'q';
     pTemp.currentPos[0] = 7;
     pTemp.currentPos[1] = 3;
     pTemp.initialPos[0] = 7;
@@ -89,14 +89,14 @@ void initilize(piece board[8][8])
     pTemp.state = 1;
     board[7][3] = pTemp;
 
-    pTemp.type = 'K';
+    pTemp.type = 'Q';
     pTemp.currentPos[0] = 0;
     pTemp.currentPos[1] = 3;
     pTemp.initialPos[0] = 0;
     pTemp.initialPos[1] = 3;
     pTemp.state = 1;
     board[0][3] = pTemp;
-    pTemp.type = 'Q';
+    pTemp.type = 'K';
     pTemp.currentPos[0] = 0;
     pTemp.currentPos[1] = 4;
     pTemp.initialPos[0] = 0;
@@ -185,7 +185,7 @@ void printBoard(piece board[8][8])
     printf("\n");
 }
 
-void display(piece board[8][8], int a[4], int *count, char disp[32])
+/*void display(piece board[8][8], int a[4], int *count, char disp[32])
 {
     char dist = board[a[3]][a[2]].type;
     if ((board[a[3]][a[2]].type >= 'A' && board[a[3]][a[2]].type <= 'Z') || (board[a[3]][a[2]].type >= 'a' && board[a[3]][a[2]].type <= 'z'))
@@ -193,19 +193,22 @@ void display(piece board[8][8], int a[4], int *count, char disp[32])
         disp[*count] = dist;
         *count += 1;
     }
-}
+}*/
 
-void printDisplay(int *count, char disp[32])
+void printDisplay(int *count, piece disp[32])
 {
-    printf("taken out pieces:{");
-    if ((*count) != 0)
-    {
-        for (int i = 0; i < (*count); i++)
-        {
-            printf("%c ,", disp[i]);
-        }
-    }
-    printf("}\n");
+   printf("taken out white:");
+   for(int i=0;i<*count;i++){
+   if(disp[i].type >= 'a' && disp[i].type <= 'z'){
+    printf(" %c ",disp[i].type);
+   }}
+   printf("\n");
+   printf("taken out black:");
+   for(int j=0;j<*count;j++){
+   if(disp[j].type >= 'A' && disp[j].type <= 'Z'){
+    printf(" %c ",disp[j].type);
+   }}
+   printf("\n");
 }
 
 void copyboard(piece board[8][8], piece temp[8][8])

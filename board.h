@@ -12,7 +12,7 @@ int state; //0 -> dead, 1->alive
 
 void initilize(piece board[8][8]);
 void printBoard(piece board[8][8]);
-void display(piece board[8][8],int a[4],int *count,char disp[32]);
-void printDisplay(int *count,char disp[32]);
+//void display(piece board[8][8],int a[4],int *count,char disp[32]);
+void printDisplay(int *count,piece disp[32]);
 void copyboard(piece board[8][8],piece temp[8][8]);
 #endif /* BOARD_H */
