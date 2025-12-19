@@ -1,4 +1,5 @@
 #include<stdio.h>
+#include <stdlib.h>
 void initilize(char board[10][10]){
      char a[10][10]={{' ','A','B','C','D','E','F','G','H',' '},
     {'8','R','N','B','K','Q','B','N','R','8'},{'7','P','P','P','P','P','P','P','P','7'},
@@ -25,3 +26,28 @@ for(int i=0;i<10;i++){
 }printf("\n");
 
 }}
+
+void display(char board[10][10],int a[],int *count,char disp[32]){
+    char dist=board [a[3]][a[2]];
+    if(dist!= '-' && dist!= '.'){
+        disp[*count]=dist;
+        *count+=1;
+    }}
+
+void printDisplay(int *count,char disp[32]){
+    printf("taken out pieces:{");
+    if((*count)!=0){
+    for(int i=0;i<(*count);i++){
+        printf("%c ,",disp[i]);
+    }}
+    printf("}\n");}
+
+
+
+
+
+
+
+
+
+
