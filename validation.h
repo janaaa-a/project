@@ -18,6 +18,7 @@ int isValidMove(piece board[8][8], int a[4], int currentplayer,char move[6]);
 int haslegalmove(piece board[8][8],int currentPlayer);
 int isCheckmate(piece board[8][8],int currentPlayer);
 int isdraw(piece board[8][8],int currentPlayer);
+int isValidInputFormat(char *input);
 
 
 #endif /* VALIDATION_H */

@@ -1,6 +1,8 @@
+#include<stdio.h>
 #include <stdlib.h>
 #include "board.h"
 #include "move.h"
+#include <string.h>
 int isPromotion(int a[4], piece board[8][8], char move[6])
 {
     char piece = board[a[1]][a[0]].type;
@@ -360,4 +362,44 @@ int isdraw(piece board[8][8],int currentPlayer){
 
     return 1;
 
+}
+
+int isValidInputFormat(char *input) {
+    int len = strlen(input);
+    
+    if (len < 4 || len > 5) {
+        printf("Invalid input! Move format: E2E4 or E7E8q (for promotion)\n");
+        return 0;
+    }
+
+    if (input[0] < 'A' || input[0] > 'H') {
+        printf("Invalid input! Starting column must be A-H\n");
+        return 0;
+    }
+    
+    if (input[1] < '1' || input[1] > '8') {
+        printf("Invalid input! Starting row must be 1-8\n");
+        return 0;
+    }
+    
+    if (input[2] < 'A' || input[2] > 'H') {
+        printf("Invalid input! Destination column must be A-H\n");
+        return 0;
+    }
+    
+    if (input[3] < '1' || input[3] > '8') {
+        printf("Invalid input! Destination row must be 1-8\n");
+        return 0;
+    }
+
+    if (len == 5) {
+        char promo = input[4];
+        if (promo != 'q' && promo != 'r' && promo != 'b' && promo != 'n' &&
+            promo != 'Q' && promo != 'R' && promo != 'B' && promo != 'N') {
+            printf("Invalid promotion! Use q/r/b/n (or Q/R/B/N for black)\n");
+            return 0;
+        }
+    }
+    
+    return 1; 
 }

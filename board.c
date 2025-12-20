@@ -10,8 +10,8 @@ void initilize(piece board[8][8])
     for (int i = 0; i < 8; i++)
     {
         pTemp.type = 'p';
-        pTemp.currentPos[0] = 6;
-        pTemp.currentPos[1] = i;
+        pTemp.currentPos[0] = 6;//row
+        pTemp.currentPos[1] = i;//column
         pTemp.initialPos[0] = 6;
         pTemp.initialPos[1] = i;
         pTemp.state = 1;
