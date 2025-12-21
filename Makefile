@@ -1,3 +1,4 @@
+# refrence: AI generated 
 # Compiler
 CC = gcc
 
@@ -8,10 +9,10 @@ CFLAGS = -Wall -g
 TARGET = game
 
 # Source files (.c files)
-SOURCES = main.c board.c move.c validation.c saveload.c
+SOURCES = main.c board.c move.c validation.c saveload.c undoredo.c
 
 # Header files (.h files)
-HEADERS = board.h move.h validation.h saveload.h
+HEADERS = board.h move.h validation.h saveload.h undoredo.h
 
 # Object files (automatically generated from sources)
 OBJECTS = $(SOURCES:.c=.o)
