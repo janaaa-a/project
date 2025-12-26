@@ -18,7 +18,7 @@ int main(){
     printf("Enter move or (save/load/quit/undo/redo): ");
         fgets(input, sizeof(input), stdin);
         input[strcspn(input, "\n")] = '\0';
-        for (int i = 0; i<4 ; i++) {
+        for (int i = 0; i<4 && input[i] ; i++) {
             input[i] = toupper(input[i]);
         }
         
