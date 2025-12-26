@@ -1,17 +1,24 @@
 #ifndef VALIDATION_H
 #define VALIDATION_H
+#include "board.h"
+
+int isPromotion(int a[4],piece board[8][8],char move[6]);
+int isValidBishopMove(int a[4],piece board[8][8]);
+int isValidQueenMove(int a[4],piece board[8][8]);
+int isValidKingMove(piece board[8][8], int a[4]);
+int isValidPawnMove(piece board[8][8], int a[4], char piece);
+int isValidRookMove(int a[4],piece board[8][8]);
+int isValidKnightMove(int a[4],piece board[8][8]);
+int isPathClear(piece board[8][8],int a[4]);
+
+int isCheck(piece temp[8][8],int currentPlayer);
+char placePiece(piece board[8][8],int a[4],char move[6]);
+
+int isValidMove(piece board[8][8], int a[4], int currentplayer,char move[6]);
+int haslegalmove(piece board[8][8],int currentPlayer);
+int isCheckmate(piece board[8][8],int currentPlayer);
+int isdraw(piece board[8][8],int currentPlayer);
+int isValidInputFormat(char *input);
 
 
-int isValidBishopMove(char board[10][10], int a[4]);
-int isValidQueenMove(char board[10][10], int a[4]);
-int isValidKingMove(char board[10][10], int a[4]);
-int isValidPawnMove(char board[10][10], int a[4], char piece);
-int isValidRookMove(int a[4],char board[10][10]);
-int isValidKnightMove(int a[4],char board[10][10]);
-int isPathClear(char board[10][10],int a[4]);
-int isPromotion(int a[4],char board[10][10],char move[6]);
-int isCheck(char temp[10][10],int currentPlayer);
-char placePiece(char board[10][10],int a[4],char move[6]);
-
-int isValidMove(char board[10][10], int a[4], int currentplayer,char move[6]);
 #endif /* VALIDATION_H */

@@ -1,3 +1,4 @@
+
 # Compiler
 CC = gcc
 
@@ -5,13 +6,13 @@ CC = gcc
 CFLAGS = -Wall -g
 
 # Target executable name
-TARGET = chess
+TARGET = game
 
 # Source files (.c files)
-SOURCES = main.c board.c move.c validation.c
+SOURCES = main.c board.c move.c validation.c saveload.c undoredo.c
 
 # Header files (.h files)
-HEADERS = board.h move.h validation.h
+HEADERS = board.h move.h validation.h saveload.h undoredo.h
 
 # Object files (automatically generated from sources)
 OBJECTS = $(SOURCES:.c=.o)
